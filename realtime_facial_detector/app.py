@@ -11,6 +11,9 @@ To change the engine and accelerator, follow this guide:
 https://dashboard.alwaysai.co/docs/application_development/changing_the_engine_and_accelerator.html
 """
 
+#def countVariChanger(word,counter):
+#    if counter < :
+#        counter = counter
 
 def main():
     facial_detector = edgeiq.ObjectDetection(
@@ -29,6 +32,9 @@ def main():
             # Allow webcam to warm up
             time.sleep(2.0)
             fps.start()
+            counter = 1
+            counterWord = 0
+            WordList = ['Beautiful!', 'Lovely!' , 'Amazing!' , 'Charming!' , 'Gorgeous!' , 'Heavenly!' , 'Stunning!' , 'Wow!!!' , 'Perfect!' , 'Flawless!' , 'OMG!']
 
             # loop detection
             while True:
@@ -38,9 +44,18 @@ def main():
                         frame, confidence_level=.5)
                 predictions_edit = results.predictions
                 #print(str(results.predictions[0]))
+                counter = counter + 1
+                if counter > 100:
+                    counter = 1
+                    counterWord = (counterWord + 1)%(len(WordList))
                 for prediction in results.predictions:
                     prediction.confidence = 1
-                    prediction.label = "Stunning"
+                    #prediction.label = "Stunning"
+                    prediction.label = WordList[counterWord]
+                #for i in range(len(results.predictions)):
+                    #results.predictions[i].confidence = 1
+                    #prediction.label = "Stunning"
+                    #results.predictions[i].label = WordList[(counterWord+i)%11]
                 frame = edgeiq.markup_image(
                         frame, results.predictions)
 				#frame = edgeiq.markup_image(frame)
